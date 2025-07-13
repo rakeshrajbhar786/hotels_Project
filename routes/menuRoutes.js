@@ -71,5 +71,7 @@ router.delete('/:id',async(req,res)=>{
     console.error('Error deleting person:', error);
     res.status(500).json({ error: 'Internal server error' });
   }
-})
+});
+
+//Comment added FOR TESTING PURPOSE
 module.exports=router;
