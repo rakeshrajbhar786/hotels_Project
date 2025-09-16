@@ -18,11 +18,14 @@ const app = express();// this contains blueprint for developing server.
                       // and contains various functionalities. 
 const db=require('./db'); 
 
+require('dotenv').config();
+const PORT=process.env.PORT||3000;  
+
 // ExpressJS Middleware : body-parser
 const bodyParser = require('body-parser');
 app.use(bodyParser.json()); // store in req.body
 
-      
+    
 
 const { constant } = require('lodash');
 
@@ -59,6 +62,6 @@ app.use('/person',personRoutes);
 app.use('/menu',menuRoutes);
 
 // 3000->port no. specifying that server made at this port.
-app.listen(3000,()=>{
+app.listen(PORT,()=>{
     console.log('Server is running and listening to port 3000');
 }) 

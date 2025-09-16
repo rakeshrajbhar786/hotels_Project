@@ -1,8 +1,10 @@
 // This db.js file used to build the database connections with NodeJS
 const mongoose=require('mongoose');
-
+require('dotenv').config();
 //1. define mongodb connection URL
-const mongoURL= 'mongodb://localhost:27017/hotels'
+
+// const mongoURL=process.env.LOCAL_MONGODB
+const mongoURL=process.env.MONGODB_URL
 
 //2. setup mongodb connections  
 mongoose.connect(mongoURL)
