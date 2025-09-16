@@ -1,16 +1,18 @@
 // Nodemon close in Cmd-> CTRL+C
 console.log("Notes page has loaded.");
+console.log(`V8 version: ${process.versions.v8}`);
+var name='Arjun';console.log(name);
 
-var name='Arjun';
-const addNum=function(a,b){
-    return a+b;
-}
+// const addNum=function(a,b){
+//     return a+b;
+// }
 
-module.exports={
-    name,
-    addNum
-}
+// module.exports={
+//     name,
+//     addNum
+// }
 // console.log("Server file is running..!");
+
 // 1. npm init: it is always used before beginning our project. Gives package.json file
 // 2. ExpressJs is installed -> helps to build own server in JS.Gives package-lock.json file
 /* NPM nodemon package
@@ -20,7 +22,7 @@ module.exports={
 //     return a+b;
 // }
 
-const { name } = require("./notes");
+// const { name } = require("./notes");
 
 // var add=function(a,b){
 //     return a+b;

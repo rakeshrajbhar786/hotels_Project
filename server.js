@@ -32,7 +32,7 @@ app.get('/', (req, res) => {
 
 
 
-/*app.get('/chicken',(req,res)=>{
+app.get('/chicken',(req,res)=>{
     res.send('I would love to serve your order.');
 });
 app.get('/idli',(req,res)=>{
@@ -49,7 +49,7 @@ app.post('/Items',(req,res)=>{
 })
 app.get('/dal',(req,res)=>{
     res.send('Enjoy your widely traditional meals.');
-}); */
+}); 
 
 // Import router files
 const personRoutes=require('./routes/personRoutes');
