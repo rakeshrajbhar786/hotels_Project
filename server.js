@@ -25,9 +25,10 @@ const PORT=process.env.PORT||3000;
 const bodyParser = require('body-parser');
 app.use(bodyParser.json()); // store in req.body
 
-    
-
 const { constant } = require('lodash');
+
+// Middleware  function define
+
 
 app.get('/', (req, res) => {
   res.send('Hello Sir, how may I help you with..?');
