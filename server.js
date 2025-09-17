@@ -28,9 +28,12 @@ app.use(bodyParser.json()); // store in req.body
 const { constant } = require('lodash');
 
 // Middleware  function define
+const logRequest=(req,res,next)=>{
+    console.log(`${new Date().toLocaleDateString()} Request made to ${req.originalUrl}`);
+    next(); // Move onto next phase
+}
 
-
-app.get('/', (req, res) => {
+app.get('/', logRequest , (req, res) => {
   res.send('Hello Sir, how may I help you with..?');
 });
 
