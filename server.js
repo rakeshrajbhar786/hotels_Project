@@ -18,10 +18,70 @@ const app = express();// this contains blueprint for developing server.
                       // and contains various functionalities. 
 const db=require('./db'); 
 
+const Person=require('./models/person');
+
 require('dotenv').config();
 const PORT=process.env.PORT||3000;  
 
+// Authentication using passportJS
+const passport=require('passport');
+const localStrategy=require('passport-local').Strategy;
+
+passport.use(new localStrategy(
+    {
+        usernameField: 'username',
+        passwordField: 'password',
+        passReqToCallback: true // allows access to req in callback
+    }, 
+    async (req,uname,pwd,done)=>{
+    // authentication logic here
+    try {
+        // Get credentials from req.query for GET requests
+            if (req.method === 'GET') {
+                uname = req.query.username;
+                pwd = req.query.password;
+            }
+        console.log('Recieved Credentials: ',uname,pwd);
+        const user=await Person.findOne({username: uname});
+        if(!user)
+            return done(null,false, {message: 'Incorrect username'});
+        
+        const isPasswordMatch=user.password === pwd?true:false;
+        console.log('Checking the password of credentials and isMatch: ',isPasswordMatch);
+        if(isPasswordMatch){console.log('Matched pwd');
+            return done(null, user);
+        }
+        else{
+            return done(null,false,{message: 'Invalid Password'});
+        }
+    } catch (error) {
+        return done(error);
+    }
+
+}))
+
+// Custom middleware for GET authentication using query params
+// const authenticateGet = async (req, res, next) => {
+//     const { username, password } = req.query;
+//     if (!username || !password) {
+//         return res.status(401).send('Missing credentials');
+//     }
+//     try {
+//         const user = await Person.findOne({ username });
+//         if (!user || user.password !== password) {
+//             return res.status(401).send('Invalid credentials');
+//         }
+//         req.user = user; // Attach user to request if needed
+//         next();
+//     } catch (err) {
+//         return res.status(500).send('Server error');
+//     }
+// };
+
 // ExpressJS Middleware : body-parser
+
+
+
 const bodyParser = require('body-parser');
 app.use(bodyParser.json()); // store in req.body
 
@@ -29,12 +89,16 @@ const { constant } = require('lodash');
 
 // Middleware  function define
 const logRequest=(req,res,next)=>{
-    console.log(`${new Date().toLocaleDateString()} Request made to ${req.originalUrl}`);
+    console.log(`[${new Date().toLocaleString()}] Request made to : ${req.originalUrl}`);
     next(); // Move onto next phase
 }
 
-app.get('/', logRequest , (req, res) => {
-  res.send('Hello Sir, how may I help you with..?');
+app.use(logRequest);
+
+app.use(passport.initialize());
+
+app.get('/', passport.authenticate('local',{session:false}),function (req, res){
+    res.send('Hello Sir, how may I help you with..?');
 });
 
 
